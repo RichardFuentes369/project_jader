@@ -132,6 +132,7 @@
                                                 <th style="width:50px;">Und</th>
                                                 <th>Valor Un.</th>
                                                 <th>Iva.</th>
+                                                <th>Adicionales.</th>
                                                 <th>Total</th>
                                                 <th>Opcion</th>
                                             </tr>
@@ -144,19 +145,24 @@
                                                 <td>{{listado.presentacion}}</td>
                                                 <td style="width:40px;">
                                                     <div class="input-tabla form-group form-group-sm">
-                                                        <input type="number" name="cantidadU" id="UnidadId" class="form-control input-sm numero" ng-model="listado.cantidadU" onclick="javascript: limpia(this);" ng-change="agregarProductoFacturaChange(listado.numeroPro,listado.id_producto,listado.descripcion,listado.codigo_producto,listado.valor,listado.valor_venta,listado.ivaValor,listado.iva,listado.presentacion,listado.fraccion,listado.valor_unidad,listado.cantidadU,listado.cantidadF,listado.editableValor)" ng-if="listado.fraccion!=0">
+                                                        <input type="number" name="cantidadU" id="UnidadId" class="form-control input-sm numero" ng-model="listado.cantidadU" onclick="javascript: limpia(this);" ng-change="agregarProductoFacturaChange(listado.numeroPro,listado.id_producto,listado.descripcion,listado.codigo_producto,listado.valor,listado.valor_venta,listado.ivaValor,listado.iva,listado.presentacion,listado.fraccion,listado.valor_unidad,listado.cantidadU,listado.cantidadF,listado.adicionalesU,listado.editableValor)" ng-if="listado.fraccion!=0">
                                                     </div>
                                                 </td>
                                                 <td style="width:50px;">
                                                     <div class="input-tabla form-group form-group-sm" ng-if="listado.fraccion==0">
-                                                        <input type="number" name="cantidadU" id="UnidadId" class="form-control input-sm numero" ng-model="listado.cantidadU" onclick="javascript: limpia(this);" ng-change="agregarProductoFacturaChange(listado.numeroPro,listado.id_producto,listado.descripcion,listado.codigo_producto,listado.valor,listado.valor_venta,listado.ivaValor,listado.iva,listado.presentacion,listado.fraccion,listado.valor_unidad,listado.cantidadU,listado.cantidadF,listado.editableValor)">
+                                                        <input type="number" name="cantidadU" id="UnidadId" class="form-control input-sm numero" ng-model="listado.cantidadU" onclick="javascript: limpia(this);" ng-change="agregarProductoFacturaChange(listado.numeroPro,listado.id_producto,listado.descripcion,listado.codigo_producto,listado.valor,listado.valor_venta,listado.ivaValor,listado.iva,listado.presentacion,listado.fraccion,listado.valor_unidad,listado.cantidadU,listado.cantidadF,listado.adicionalesU,listado.editableValor)">
                                                     </div>
                                                     <div class="input-tabla form-group form-group-sm" ng-if="listado.fraccion!=0">
-                                                        <input type="number" name="cantidadU" class="form-control input-sm numero" ng-model="listado.cantidadF" id="fraccionID" onclick="javascript: limpia(this);" ng-change="agregarProductoFacturaChange(listado.numeroPro,listado.id_producto,listado.descripcion,listado.codigo_producto,listado.valor,listado.valor_venta,listado.ivaValor,listado.iva,listado.presentacion,listado.fraccion,listado.valor_unidad,listado.cantidadU,listado.cantidadF,listado.editableValor)">
+                                                        <input type="number" name="cantidadU" class="form-control input-sm numero" ng-model="listado.cantidadF" id="fraccionID" onclick="javascript: limpia(this);" ng-change="agregarProductoFacturaChange(listado.numeroPro,listado.id_producto,listado.descripcion,listado.codigo_producto,listado.valor,listado.valor_venta,listado.ivaValor,listado.iva,listado.presentacion,listado.fraccion,listado.valor_unidad,listado.cantidadU,listado.cantidadF,listado.adicionalesU,listado.editableValor)">
                                                     </div>
                                                 </td>
                                                 <td>${{listado.valor_venta - listado.ivaV | number:0}}</td>
                                                 <td>{{listado.ivaV}} - ({{listado.iva}} %)</td>
+                                                <td>
+                                                    <div class="input-tabla form-group form-group-sm">
+                                                        <input type="number" name="adicionalesU" class="form-control input-sm numero" ng-model="listado.adicionalesU" id="fraccionID" onclick="javascript: limpia(this);" ng-change="agregarProductoFacturaChange(listado.numeroPro,listado.id_producto,listado.descripcion,listado.codigo_producto,listado.valor,listado.valor_venta,listado.ivaValor,listado.iva,listado.presentacion,listado.fraccion,listado.valor_unidad,listado.cantidadU,listado.cantidadF,listado.adicionalesU,listado.editableValor)">
+                                                    </div>
+                                                </td>
                                                 <td class="table-info">
                                                     <div class="input-tabla form-group form-group-sm" ng-if="listado.editableValor==1">
                                                         <input type="number" name="cantidadU" class="form-control input-sm numero" ng-model="listado.valorTotal" id="fraccionID" ng-keypress="agregarProductoFacturaEditable(e)"></div>
@@ -280,6 +286,15 @@
                                             </span>
                                         </th>
                                     </tr>
+                                    <tr>
+                                        <th class="dinero cambio">
+                                            Adicionales<br>
+                                            <span class="icon">
+                                                <i class="material-icons">attach_money</i>
+                                            </span>
+                                            <span class="total"> {{totaladicionales | number:0}}</span>
+                                        </th>
+                                    </tr>
                                     <tr class="table-success">
                                         <!-- <th colspan="8"></th> -->
                                         <th class=" dinero cambio ">Total <br>
@@ -311,13 +326,13 @@
                                                     </button>
                                                 </div>
                                             </div>
-                                            <div class="row">
+                                            <!-- <div class="row">
                                                 <div ng-if="ContraDescuentroBotonFacturar==1" align="center" class="col-md-12">
                                                     <button type="button" class="btn btn-primary btn-lg btn-block " ng-click="guardarFacturaElec(insertClientes,cambioFacturaDinero)" >
                                                         <i class="material-icons">play_for_work</i> Factura Electrónica
                                                     </button>
                                                 </div>
-                                            </div>
+                                            </div> -->
                                             <div class="row" ng-if="vistaCredito==false">
                                                 <div ng-if="ContraDescuentroBotonFacturar==1" align="center" class="col-md-12">
                                                     <button type="button" class="btn btn-primary btn-lg btn-block " ng-click="creditoAddDatos()">

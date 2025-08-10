@@ -75,7 +75,6 @@ table{
           <th>CANT</th>
           <th>VAL</th>
           <th>TOT</th>
-        
         </tr>
          <tr>
               <th>_______</th>
@@ -83,16 +82,18 @@ table{
               <th>_______</th>
               <th>_______</th>
               </tr>';
-        $sql_detallefactura =  mysqli_query($link,"SELECT  f.descuento,f.id_factura,f.codigo_factura,f.fecha_factura,f.hora,f.valor_pago,cli.cc_cliente,cli.nombre_cliente,p.descripcion,p.codigo_producto,p.id_categoria,cat.nombre_categoria,df.cantidad,df.cantidadFraccion,df.total_pago,p.valor_venta,iv.* FROM tbl_factura f, tbl_empresa em, tbl_cliente cli, tbl_producto p, tbl_detallefactura df, tbl_categoria cat,tbl_iva iv WHERE f.id_empresa=em.id_empresa and f.id_cliente=cli.id_cliente and df.id_producto=p.id_producto and df.id_factura=f.id_factura and p.id_categoria=cat.id_categoria and iv.id_iva=p.id_iva and df.id_factura='$factura'");
+        $sql_detallefactura =  mysqli_query($link,"SELECT  f.descuento,f.totaladicionales,f.id_factura,f.codigo_factura,f.fecha_factura,f.hora,f.valor_pago,cli.cc_cliente,cli.nombre_cliente,p.descripcion,p.codigo_producto,p.id_categoria,cat.nombre_categoria,df.cantidad,df.cantidadFraccion,df.total_pago,p.valor_venta,iv.* FROM tbl_factura f, tbl_empresa em, tbl_cliente cli, tbl_producto p, tbl_detallefactura df, tbl_categoria cat,tbl_iva iv WHERE f.id_empresa=em.id_empresa and f.id_cliente=cli.id_cliente and df.id_producto=p.id_producto and df.id_factura=f.id_factura and p.id_categoria=cat.id_categoria and iv.id_iva=p.id_iva and df.id_factura='$factura'");
       
       $totalvalor=0;
       $ivaV=0;
+      $var_adicionales = 0;
         while ($respuestadetalle = mysqli_fetch_assoc($sql_detallefactura))
         { 
           
           $totalvalor=$totalvalor+$respuestadetalle['total_pago'];
           $ivaVV=$respuestadetalle['total_pago']*$respuestadetalle['iva']/100;
           $ivaV=$ivaV+$ivaVV;
+          $var_adicionales = $respuestadetalle['totaladicionales'];
               
 
     $variable_html .= '                 
@@ -104,6 +105,7 @@ table{
           <td><strong>$'.number_format($respuestadetalle['total_pago']).'</strong></td>
         </tr>';
       }
+      $adicionales= $var_adicionales;
       $subtotal=$totalvalor - $ivaV;
       $totalconDES=$totalvalor-$descuentoGeneral;
       $variable_html .= '
@@ -111,6 +113,10 @@ table{
   <p>=============================</p>  
 
     <table class="tmedia">
+      <tr>
+        <th class="cabecera2">Adicionales</th>
+        <td><strong>$ '.number_format( $adicionales).'</strong></td>
+      </tr>
       <tr>
         <th class="cabecera2">Subtotal</th>
         <td><strong>$ '.number_format( $subtotal).'</strong></td>

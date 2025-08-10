@@ -1965,6 +1965,7 @@ if ($variable == 'ingresos') {
 	} else if ($operacion == 'insertarfactura') {
 		$datos = json_decode(file_get_contents("php://input"));
 		$id_cliente = $datos->id_cliente;
+		$totaladicionales = $datos->totaladicionales;
 		$totalpago = $datos->totalpago;
 		$totalganancia = $datos->totalganancia;
 		$cambio = $datos->cambio;
@@ -1992,7 +1993,7 @@ if ($variable == 'ingresos') {
 
 			$codigofactura = $filaRango['InicioFactura'];
 			$idVendedor = (int)$_SESSION['id'];
-			$sql_elimnaringresos = mysqli_query($link,"INSERT INTO tbl_factura VALUES (null,'$codigofactura','$id_empresa',current_date(),'$hora','$id_cliente','$totalpago','$pagoCambio','$cambio','$descuento','$totalganancia','$idVendedor','$tipopago')");
+			$sql_elimnaringresos = mysqli_query($link,"INSERT INTO tbl_factura VALUES (null,'$codigofactura','$id_empresa',current_date(),'$hora','$id_cliente','$totaladicionales','$totalpago','$pagoCambio','$cambio','$descuento','$totalganancia','$idVendedor','$tipopago')");
 			if (!$sql_elimnaringresos) {
 				echo "fallo";
 			} else {
@@ -2007,7 +2008,7 @@ if ($variable == 'ingresos') {
 			if ($codigofactura > $filaRango['FinalFactura']) {
 				echo "Numero Factura LLena";
 			} else {
-				$sql_elimnaringresos = mysqli_query($link,"INSERT INTO tbl_factura VALUES (null,'$codigofactura','$id_empresa',current_date(),'$hora','$id_cliente','$totalpago','$pagoCambio','$cambio','$descuento','$totalganancia','$idVendedor','$tipopago')");
+				$sql_elimnaringresos = mysqli_query($link,"INSERT INTO tbl_factura VALUES (null,'$codigofactura','$id_empresa',current_date(),'$hora','$id_cliente','$totaladicionales','$totalpago','$pagoCambio','$cambio','$descuento','$totalganancia','$idVendedor','$tipopago')");
 				if (!$sql_elimnaringresos) {
 					echo "fallo";
 				} else {
